@@ -15,28 +15,101 @@
     "mapQuery": "Saeedabad, Jamshoro, Sindh, Pakistan"
   },
   "features": [
-    {"icon": "🎓", "title": "Experienced Teachers", "text": "Qualified, dedicated teachers for every subject."},
-    {"icon": "💰", "title": "Affordable Fees", "text": "Quality education at fees every family can afford."},
-    {"icon": "📝", "title": "Monthly Tests", "text": "Regular tests and progress reports for parents."},
-    {"icon": "💻", "title": "Practical Computer Lab", "text": "Hands-on computer classes, not just theory."}
+    {
+      "icon": "🎓",
+      "title": "Experienced Teachers",
+      "text": "Qualified, dedicated teachers for every subject."
+    },
+    {
+      "icon": "💰",
+      "title": "Affordable Fees",
+      "text": "Quality education at fees every family can afford."
+    },
+    {
+      "icon": "📝",
+      "title": "Monthly Tests",
+      "text": "Regular tests and progress reports for parents."
+    },
+    {
+      "icon": "💻",
+      "title": "Practical Computer Lab",
+      "text": "Hands-on computer classes, not just theory."
+    }
   ],
   "courses": [
-    {"icon": "💻", "name": "Computer", "teacher": "Sir Nazeer Ahmed Jamali", "fee": 2000, "desc": "Computer basics, MS Office, typing and internet skills."},
-    {"icon": "📖", "name": "English", "teacher": "Sir Sajjad Ali Birhmani", "fee": 1000, "desc": "Grammar, spoken English, reading and writing."},
-    {"icon": "🧬", "name": "Biology", "teacher": "Sir Azhar Ali Chandio", "fee": 1000, "desc": "Concept-based Biology for school and college students."},
-    {"icon": "➗", "name": "Math", "teacher": "Sir M. Faheem", "fee": 1000, "desc": "Step-by-step Math with regular practice and tests."},
-    {"icon": "🧒", "name": "Kids Coaching", "teacher": "Miss Farzana & Miss Fozia", "fee": 1000, "desc": "Caring coaching and homework help for young children."}
+    {
+      "icon": "💻",
+      "name": "Computer",
+      "teacher": "Sir Nazeer Ahmed Jamali",
+      "fee": 2000,
+      "desc": "Computer basics, MS Office, typing and internet skills."
+    },
+    {
+      "icon": "📖",
+      "name": "English",
+      "teacher": "Sir Sajjad Ali Birhmani",
+      "fee": 1000,
+      "desc": "Grammar, spoken English, reading and writing."
+    },
+    {
+      "icon": "🧬",
+      "name": "Biology",
+      "teacher": "Sir Azhar Ali Chandio",
+      "fee": 1000,
+      "desc": "Concept-based Biology for school and college students."
+    },
+    {
+      "icon": "➗",
+      "name": "Math",
+      "teacher": "Sir M. Faheem",
+      "fee": 1000,
+      "desc": "Step-by-step Math with regular practice and tests."
+    },
+    {
+      "icon": "🧒",
+      "name": "Kids Coaching",
+      "teacher": "Miss Farzana & Miss Fozia",
+      "fee": 1000,
+      "desc": "Caring coaching and homework help for young children."
+    }
   ],
   "teachers": [
-    {"name": "Sir Nazeer Ahmed Jamali", "subject": "Computer", "photo": ""},
-    {"name": "Sir Sajjad Ali Birhmani", "subject": "English", "photo": ""},
-    {"name": "Sir Azhar Ali Chandio", "subject": "Biology", "photo": ""},
-    {"name": "Sir M. Faheem", "subject": "Math", "photo": ""},
-    {"name": "Miss Farzana", "subject": "Kids Coaching", "photo": ""},
-    {"name": "Miss Fozia", "subject": "Kids Coaching", "photo": ""}
+    {
+      "name": "Sir Nazeer Ahmed Jamali",
+      "subject": "Computer",
+      "photo": ""
+    },
+    {
+      "name": "Sir Sajjad Ali Birhmani",
+      "subject": "English",
+      "photo": ""
+    },
+    {
+      "name": "Sir Azhar Ali Chandio",
+      "subject": "Biology",
+      "photo": ""
+    },
+    {
+      "name": "Sir M. Faheem",
+      "subject": "Math",
+      "photo": ""
+    },
+    {
+      "name": "Miss Farzana",
+      "subject": "Kids Coaching",
+      "photo": ""
+    },
+    {
+      "name": "Miss Fozia",
+      "subject": "Kids Coaching",
+      "photo": ""
+    }
   ],
   "notices": [
-    {"date": "2026-10-09", "text": "Admissions open for all classes. Contact us on WhatsApp!"}
+    {
+      "date": "2026-10-09",
+      "text": "Admissions open for all classes. Contact us on WhatsApp!"
+    }
   ],
   "gallery": []
 }
