@@ -1,0 +1,20 @@
+name: "💰 Change a course fee"
+description: Change the monthly fee or teacher of a course
+title: "[Fee] Update"
+body:
+  - type: input
+    id: course
+    attributes:
+      label: Course name (exactly as on the website)
+      placeholder: "e.g. Computer"
+    validations:
+      required: true
+  - type: input
+    id: fee
+    attributes:
+      label: New monthly fee (Rs) — leave blank to keep
+      placeholder: "e.g. 2000"
+  - type: input
+    id: teacher
+    attributes:
+      label: New teacher name — leave blank to keep

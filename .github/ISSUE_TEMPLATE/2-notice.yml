@@ -1,0 +1,19 @@
+name: "📢 Add or remove a notice"
+description: Change the news bar at the top of the website
+title: "[Notice] Update"
+body:
+  - type: dropdown
+    id: action
+    attributes:
+      label: What do you want to do?
+      options:
+        - Add this notice
+        - Remove ALL old notices and add this one
+        - Remove ALL notices
+    validations:
+      required: true
+  - type: input
+    id: text
+    attributes:
+      label: Notice text
+      placeholder: "e.g. Admissions open for all classes!"

@@ -1,0 +1,22 @@
+name: "📞 Contact details"
+description: Change address, phone, WhatsApp or Facebook link
+title: "[Contact] Update"
+body:
+  - type: markdown
+    attributes:
+      value: "Fill only what you want to change. Leave the rest blank."
+  - type: input
+    id: address
+    attributes: {label: Address}
+  - type: input
+    id: whatsapp
+    attributes: {label: WhatsApp number, placeholder: "03XXXXXXXXX"}
+  - type: input
+    id: phone
+    attributes: {label: Telephone}
+  - type: input
+    id: facebook
+    attributes: {label: Facebook page link, placeholder: "https://www.facebook.com/..."}
+  - type: input
+    id: map
+    attributes: {label: Map location (place name for Google Maps)}

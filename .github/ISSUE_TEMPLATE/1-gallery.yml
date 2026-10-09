@@ -1,0 +1,19 @@
+name: "📷 Add photos to Gallery"
+description: Upload photos to the website gallery
+title: "[Gallery] New photos"
+body:
+  - type: markdown
+    attributes:
+      value: "Tap inside the box below and attach your photos (📎 or drag & drop). Then tap **Submit new issue**. The website updates in about 2 minutes."
+  - type: textarea
+    id: photos
+    attributes:
+      label: Photos
+      description: Attach one or more photos here.
+    validations:
+      required: true
+  - type: input
+    id: caption
+    attributes:
+      label: Caption (optional)
+      placeholder: "e.g. Annual Result 2026"

@@ -1,0 +1,20 @@
+name: "🖼️ Logo or main banner photo"
+description: Change the academy logo or the big photo at the top of the website
+title: "[Logo] Update"
+body:
+  - type: dropdown
+    id: which
+    attributes:
+      label: Which picture?
+      options:
+        - Logo
+        - Main banner photo
+    validations:
+      required: true
+  - type: textarea
+    id: photo
+    attributes:
+      label: Photo
+      description: Attach one photo.
+    validations:
+      required: true

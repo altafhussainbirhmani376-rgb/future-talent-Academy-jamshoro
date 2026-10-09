@@ -1,0 +1,12 @@
+name: "🗑️ Remove gallery photos"
+description: Remove photos from the website gallery
+title: "[Remove photo] Update"
+body:
+  - type: input
+    id: numbers
+    attributes:
+      label: Photo numbers to remove
+      description: "Count from the first photo in the Gallery: 1 = first photo. Write ALL to remove every photo."
+      placeholder: "e.g. 2, 5"
+    validations:
+      required: true

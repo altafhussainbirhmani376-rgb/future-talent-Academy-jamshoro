@@ -1,0 +1,31 @@
+name: "👨‍🏫 Teacher photo or new teacher"
+description: Add a teacher photo, or add / remove a teacher
+title: "[Teacher] Update"
+body:
+  - type: dropdown
+    id: action
+    attributes:
+      label: What do you want to do?
+      options:
+        - Add / change a teacher's photo
+        - Add a new teacher
+        - Remove a teacher
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Teacher name (exactly as on the website)
+      placeholder: "e.g. Sir Nazeer Ahmed Jamali"
+    validations:
+      required: true
+  - type: input
+    id: subject
+    attributes:
+      label: Subject (only for a new teacher)
+      placeholder: "e.g. Chemistry"
+  - type: textarea
+    id: photo
+    attributes:
+      label: Photo
+      description: Attach one photo (not needed for "Remove").

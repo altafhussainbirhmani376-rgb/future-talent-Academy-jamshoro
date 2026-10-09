@@ -1,0 +1,71 @@
+name: Website update
+
+# Turns an update form (issue) from the admin dashboard into a change on the
+# live website (gh-pages branch), then replies on the issue and closes it.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: website-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event.issue.author_association == 'OWNER' && startsWith(github.event.issue.title, '[')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get update script
+        uses: actions/checkout@v4
+        with:
+          path: tools
+          sparse-checkout: .github/scripts
+
+      - name: Get website
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: site
+
+      - name: Install tools
+        run: pip install --quiet pillow requests
+
+      - name: Apply update
+        id: apply
+        working-directory: site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          REPORT_FILE: ${{ runner.temp }}/report.md
+        run: python ../tools/.github/scripts/apply_update.py
+
+      - name: Publish
+        working-directory: site
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "Academy Website Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Website update from issue #$ISSUE_NUMBER"
+          git push origin HEAD:gh-pages
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null || echo "Pages build request skipped"
+
+      - name: Reply and close
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT: ${{ runner.temp }}/report.md
+        run: |
+          if [ ! -s "$REPORT" ]; then echo "❌ Something went wrong. Please try again in a few minutes." > "$REPORT"; fi
+          gh issue comment ${{ github.event.issue.number }} -R ${{ github.repository }} -F "$REPORT"
+          if grep -q "✅" "$REPORT"; then
+            gh issue close ${{ github.event.issue.number }} -R ${{ github.repository }} -r completed
+          fi
