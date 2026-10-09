@@ -51,6 +51,10 @@ textarea{min-height:80px;resize:vertical}
 .login{max-width:460px;margin:40px auto}
 .steps{font-size:.85rem;color:var(--muted);padding-left:18px;margin:10px 0}
 .steps li{margin:4px 0}
+.easy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:6px}
+.ez{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:18px 10px;color:var(--navy);font-weight:700;text-decoration:none;transition:.15s}
+.ez:hover,.ez:active{border-color:var(--gold);background:#fffaf0;transform:translateY(-2px)}
+.ez span{font-size:2rem}.ez small{font-weight:500;color:var(--muted);font-size:.78rem}
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;z-index:99;display:none;font-size:.9rem;max-width:90vw}
 </style>
 </head>
@@ -59,8 +63,33 @@ textarea{min-height:80px;resize:vertical}
 <div class="toast" id="toast"></div>
 
 <main class="wrap">
+  <!-- EASY MODE (no access key) -->
+  <div id="easy">
+    <div class="card">
+      <h2>👋 Welcome! What do you want to change?</h2>
+      <p class="hint">Tap a button. A short GitHub form opens: fill it in and tap <b>Submit new issue</b> (green button).
+      The website updates by itself in about 2 minutes. Make sure you are logged in to GitHub.</p>
+      <div class="easy-grid">
+        <a class="ez" target="_blank" rel="noopener" data-t="1-gallery.yml"><span>📷</span>Add photos<small>to the Gallery</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="2-notice.yml"><span>📢</span>Notice / News<small>add or remove</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="4-fee.yml"><span>💰</span>Change a fee<small>or course teacher</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="3-teacher.yml"><span>👨‍🏫</span>Teachers<small>photo, add, remove</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="5-logo.yml"><span>🖼️</span>Logo / Banner<small>main pictures</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="6-remove-photo.yml"><span>🗑️</span>Remove photos<small>from the Gallery</small></a>
+        <a class="ez" target="_blank" rel="noopener" data-t="7-contact.yml"><span>📞</span>Contact details<small>address, phone, Facebook</small></a>
+        <a class="ez" target="_blank" rel="noopener" id="ezStatus"><span>✅</span>Check my updates<small>see if they worked</small></a>
+      </div>
+    </div>
+    <div class="card">
+      <h2>How do I know it worked?</h2>
+      <p class="hint" style="margin:0">After you submit a form, the robot replies on it within 1–2 minutes:
+      <b>✅ Done!</b> means the website is updated. <b>❌</b> tells you what to fix. Tap <b>Check my updates</b> to see all replies.</p>
+    </div>
+    <p style="text-align:center;margin:18px 0"><button class="btn btn-light" id="showAdv">⚙️ Advanced: login with access key</button></p>
+  </div>
+
   <!-- LOGIN -->
-  <div class="card login" id="loginCard">
+  <div class="card login" id="loginCard" hidden>
     <h2>🔐 Admin Login</h2>
     <p class="hint">Paste your GitHub access key to manage the website. It is saved only on this phone/computer.</p>
     <label>GitHub access key (token)</label>
@@ -269,9 +298,13 @@ $("oneFile").onchange=async e=>{
 $("saveBtn").onclick=save;
 $("logoutBtn").onclick=()=>{if(dirty&&!confirm("You have unsaved changes. Log out anyway?"))return;store.del("ftaToken");location.reload()};
 
+const REPO_URL=()=>`https://github.com/${cfg.owner}/${cfg.repo}`;
+document.querySelectorAll(".ez[data-t]").forEach(a=>a.href=`${REPO_URL()}/issues/new?template=${a.dataset.t}`);
+$("ezStatus").href=`${REPO_URL()}/issues?q=is%3Aissue+sort%3Acreated-desc`;
+$("showAdv").onclick=()=>{$("easy").hidden=true;$("loginCard").hidden=false};
 async function start(){
   $("loginBtn").disabled=true;
-  try{await load();store.set("ftaToken",token);$("loginCard").hidden=true;$("dash").hidden=false;$("savebar").hidden=false;renderAll();setDirty(false)}
+  try{await load();store.set("ftaToken",token);$("loginCard").hidden=true;$("easy").hidden=true;$("dash").hidden=false;$("savebar").hidden=false;renderAll();setDirty(false)}
   catch(e){toast(e.status===401?"❌ Access key is not valid.":e.status===404?"❌ Repository or file not found — check Advanced settings / key permissions.":"❌ "+e.message,6000);store.del("ftaToken")}
   finally{$("loginBtn").disabled=false}
 }
