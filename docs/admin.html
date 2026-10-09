@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Academy Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0D3B66;--navy-2:#14507f;--gold:#F4A300;--ink:#1c2533;--muted:#5b6575;--soft:#f3f7fb;--line:#e3e9f0;--ok:#2E7D32;--bad:#C0392B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,Arial,sans-serif;background:var(--soft);color:var(--ink);min-height:100vh}
+.top{background:linear-gradient(120deg,var(--navy),var(--navy-2));color:#fff;padding:16px}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.top h1{font-size:1.15rem}.top h1 span{color:var(--gold)}
+.top a{color:#fff;font-size:.85rem;opacity:.9}
+.wrap{max-width:1000px;margin:0 auto}
+main{padding:18px 16px 120px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.tab{flex:none;border:0;background:#fff;color:var(--navy);padding:10px 16px;border-radius:999px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.tab.on{background:var(--navy);color:#fff}
+.panel{display:none}.panel.on{display:block}
+.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 6px 20px rgba(13,59,102,.06)}
+.card h2{color:var(--navy);font-size:1.05rem;margin-bottom:4px}
+.hint{color:var(--muted);font-size:.85rem;margin-bottom:14px}
+label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin:10px 0 4px}
+input,textarea,select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font:inherit;font-size:.93rem;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.btn{border:0;border-radius:11px;padding:11px 18px;font:inherit;font-weight:600;cursor:pointer;font-size:.9rem;display:inline-flex;gap:6px;align-items:center}
+.btn-gold{background:var(--gold);color:#1b1300}.btn-navy{background:var(--navy);color:#fff}
+.btn-red{background:#fdecea;color:var(--bad)}.btn-light{background:var(--soft);color:var(--navy)}
+.btn:disabled{opacity:.5;cursor:wait}
+.item{border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;position:relative}
+.item .del{position:absolute;top:10px;right:10px;padding:6px 10px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.gal .g{border-radius:12px;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
+.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.gal .g div{padding:8px}
+.gal input{padding:7px 9px;font-size:.8rem}
+.gal .btn{width:100%;justify-content:center;margin-top:6px;padding:7px}
+.drop{border:2.5px dashed var(--gold);border-radius:16px;padding:26px;text-align:center;color:var(--navy);cursor:pointer;background:#fffaf0}
+.drop b{display:block;font-size:1.05rem}
+.thumb{width:84px;height:84px;border-radius:50%;object-fit:cover;background:var(--soft);border:3px solid var(--gold)}
+.flex{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px;box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.savebar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#status{font-size:.88rem;color:var(--muted)}
+.dirty #status{color:var(--bad);font-weight:600}
+.login{max-width:460px;margin:40px auto}
+.steps{font-size:.85rem;color:var(--muted);padding-left:18px;margin:10px 0}
+.steps li{margin:4px 0}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;z-index:99;display:none;font-size:.9rem;max-width:90vw}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><h1>🎓 Academy <span>Admin Dashboard</span></h1><a href="index.html" target="_blank">View website ↗</a></div></div>
+<div class="toast" id="toast"></div>
+
+<main class="wrap">
+  <!-- LOGIN -->
+  <div class="card login" id="loginCard">
+    <h2>🔐 Admin Login</h2>
+    <p class="hint">Paste your GitHub access key to manage the website. It is saved only on this phone/computer.</p>
+    <label>GitHub access key (token)</label>
+    <input id="tokenIn" type="password" placeholder="github_pat_…">
+    <details style="margin-top:10px"><summary style="cursor:pointer;color:var(--navy);font-weight:600;font-size:.88rem">How do I get an access key?</summary>
+      <ol class="steps">
+        <li>Open <b>github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</b>.</li>
+        <li>Click <b>Generate new token</b>. Name it "Academy website".</li>
+        <li>Repository access: <b>Only select repositories</b> → choose <b>future-talent-Academy-jamshoro</b>.</li>
+        <li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
+        <li>Generate, copy the token and paste it above.</li>
+      </ol>
+    </details>
+    <details style="margin-top:6px"><summary style="cursor:pointer;color:var(--navy);font-weight:600;font-size:.88rem">Advanced settings</summary>
+      <div class="row"><div><label>Owner</label><input id="cfgOwner"></div><div><label>Repository</label><input id="cfgRepo"></div></div>
+      <div class="row"><div><label>Branch</label><input id="cfgBranch"></div><div><label>Folder</label><input id="cfgDir"></div></div>
+    </details>
+    <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:16px" id="loginBtn">Login</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash" hidden>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-p="pGallery">📷 Gallery</button>
+      <button class="tab" data-p="pNotices">📢 Notices</button>
+      <button class="tab" data-p="pCourses">📚 Courses &amp; Fees</button>
+      <button class="tab" data-p="pTeachers">👨‍🏫 Teachers</button>
+      <button class="tab" data-p="pInfo">🏫 Academy &amp; Contact</button>
+    </div>
+
+    <section class="panel on" id="pGallery">
+      <div class="card">
+        <h2>Upload photos</h2>
+        <p class="hint">Choose one or more photos. They are resized automatically and added to the Gallery.</p>
+        <label class="drop" for="galFile"><b>📤 Tap to choose photos</b><span style="font-size:.85rem">JPG / PNG</span></label>
+        <input type="file" id="galFile" accept="image/*" multiple hidden>
+      </div>
+      <div class="card"><h2>Gallery photos</h2><p class="hint">Write a caption under each photo. Use ↑ to move a photo to the front.</p><div class="gal" id="galList"></div></div>
+    </section>
+
+    <section class="panel" id="pNotices">
+      <div class="card"><h2>Notices / News</h2><p class="hint">These scroll in the yellow bar at the top of the website.</p>
+        <div id="noticeList"></div><button class="btn btn-light" id="addNotice">＋ Add notice</button></div>
+    </section>
+
+    <section class="panel" id="pCourses">
+      <div class="card"><h2>Courses &amp; monthly fees</h2><p class="hint">Change fees, teachers or descriptions. The admission form uses this list too.</p>
+        <div id="courseList"></div><button class="btn btn-light" id="addCourse">＋ Add course</button></div>
+    </section>
+
+    <section class="panel" id="pTeachers">
+      <div class="card"><h2>Teachers</h2><p class="hint">Upload a photo for each teacher (optional).</p>
+        <div id="teacherList"></div><button class="btn btn-light" id="addTeacher">＋ Add teacher</button></div>
+    </section>
+
+    <section class="panel" id="pInfo">
+      <div class="card"><h2>Academy</h2>
+        <div class="row"><div><label>Academy name</label><input data-k="academy.name"></div><div><label>City</label><input data-k="academy.city"></div></div>
+        <label>Tagline</label><input data-k="academy.tagline">
+        <label>About the academy</label><textarea data-k="academy.about"></textarea>
+        <div class="row" style="margin-top:12px">
+          <div><label>Logo</label><div class="flex"><img class="thumb" id="logoPrev" alt=""><button class="btn btn-light" data-up="academy.logo">📤 Upload logo</button></div></div>
+          <div><label>Main banner photo</label><div class="flex"><img class="thumb" style="border-radius:12px;width:120px" id="heroPrev" alt=""><button class="btn btn-light" data-up="academy.heroImage">📤 Upload photo</button></div></div>
+        </div>
+      </div>
+      <div class="card"><h2>Contact</h2>
+        <label>Address</label><input data-k="contact.address">
+        <div class="row"><div><label>WhatsApp number</label><input data-k="contact.whatsapp"></div><div><label>Telephone</label><input data-k="contact.phone"></div></div>
+        <label>Facebook page link</label><input data-k="contact.facebook" placeholder="https://www.facebook.com/…">
+        <label>Map location (place name or address for Google Maps)</label><input data-k="contact.mapQuery">
+      </div>
+      <div class="card"><button class="btn btn-red" id="logoutBtn">Log out of this device</button></div>
+    </section>
+  </div>
+</main>
+
+<div class="savebar" id="savebar" hidden><div class="wrap"><span id="status">All changes saved.</span><button class="btn btn-gold" id="saveBtn">💾 Save &amp; Publish</button></div></div>
+<input type="file" id="oneFile" accept="image/*" hidden>
+
+<script>
+const DEF={owner:"altafhussainbirhmani376-rgb",repo:"future-talent-Academy-jamshoro",branch:"claude/about-you-chd8ke",dir:"docs"};
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let cfg=Object.assign({},DEF,JSON.parse(store.get("ftaCfg")||"{}"));
+let token=store.get("ftaToken")||"";
+let data=null, sha=null, dirty=false;
+const preview={};   // path -> dataURL (new uploads show before the site redeploys)
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=(m,ms=2600)=>{const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",ms)};
+const src=p=>preview[p]||p;
+const b64=str=>btoa(unescape(encodeURIComponent(str)));
+const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,""))));
+
+async function gh(path,opt={}){
+  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`+(opt.method?"":`?ref=${encodeURIComponent(cfg.branch)}`);
+  const r=await fetch(url,{method:opt.method||"GET",headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"},body:opt.body?JSON.stringify(opt.body):undefined});
+  if(!r.ok){const e=await r.json().catch(()=>({}));const err=new Error(e.message||("HTTP "+r.status));err.status=r.status;throw err}
+  return r.json();
+}
+const P=f=>cfg.dir?cfg.dir.replace(/\/$/,"")+"/"+f:f;
+
+async function load(){
+  const j=await gh(P("data/site.json"));
+  sha=j.sha; data=JSON.parse(unb64(j.content));
+  ["notices","gallery","teachers","courses"].forEach(k=>data[k]=data[k]||[]);
+}
+async function save(){
+  const btn=$("saveBtn"); btn.disabled=true; $("status").textContent="Saving…";
+  try{
+    const r=await gh(P("data/site.json"),{method:"PUT",body:{message:"Update website content from admin dashboard",content:b64(JSON.stringify(data,null,2)+"\n"),sha,branch:cfg.branch}});
+    sha=r.content.sha; setDirty(false); toast("✅ Saved! The website updates in about 1–2 minutes.",4000);
+  }catch(e){
+    if(e.status===409){toast("Someone else changed the site. Reloading — please redo your last change.",5000);await load();renderAll();setDirty(false)}
+    else toast("❌ Could not save: "+e.message,5000);
+  }finally{btn.disabled=false;if(!dirty)$("status").textContent="All changes saved."}
+}
+function setDirty(v){dirty=v;document.body.classList.toggle("dirty",v);$("status").textContent=v?"You have unsaved changes":"All changes saved."}
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+
+function resize(file,max=1600){
+  return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{
+    let w=img.width,h=img.height;const s=Math.min(1,max/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+    const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);
+    res(c.toDataURL("image/jpeg",.85));URL.revokeObjectURL(img.src)};img.onerror=rej;img.src=URL.createObjectURL(file)});
+}
+async function upload(file,prefix="photo"){
+  const dataUrl=await resize(file);
+  const name=`images/${prefix}-${Date.now()}-${Math.random().toString(36).slice(2,6)}.jpg`;
+  await gh(P(name),{method:"PUT",body:{message:"Upload "+name,content:dataUrl.split(",")[1],branch:cfg.branch}});
+  preview[name]=dataUrl; return name;
+}
+async function removeFile(path){
+  if(!path||!path.startsWith("images/"))return;
+  try{const f=await gh(P(path));await gh(P(path),{method:"DELETE",body:{message:"Delete "+path,sha:f.sha,branch:cfg.branch}})}catch(e){}
+}
+function get(o,k){return k.split(".").reduce((a,b)=>a?.[b],o)}
+function set(o,k,v){const ks=k.split(".");const last=ks.pop();ks.reduce((a,b)=>a[b],o)[last]=v}
+
+/* ---------- renderers ---------- */
+function renderGallery(){
+  $("galList").innerHTML=data.gallery.length?data.gallery.map((g,i)=>`<div class="g"><img src="${esc(src(g.src))}" alt=""><div>
+    <input value="${esc(g.caption)}" placeholder="Caption" data-gi="${i}">
+    <div class="flex" style="gap:6px">${i?`<button class="btn btn-light" style="flex:1" data-gup="${i}">↑</button>`:""}<button class="btn btn-red" style="flex:1" data-gdel="${i}">🗑 Delete</button></div></div></div>`).join("")
+    :`<p class="hint">No photos yet. Upload some above.</p>`;
+}
+function listEditor(el,arr,fields,photoKey){
+  $(el).innerHTML=arr.map((it,i)=>`<div class="item"><button class="btn btn-red del" data-del="${el}:${i}">🗑</button>
+    ${photoKey?`<div class="flex" style="margin-bottom:6px"><img class="thumb" src="${esc(src(it[photoKey]||""))}" alt=""><button class="btn btn-light" data-upi="${el}:${i}">📤 Photo</button></div>`:""}
+    <div class="row">${fields.map(f=>`<div style="${f.wide?"grid-column:1/-1":""}"><label>${f.label}</label>${f.area?`<textarea data-li="${el}:${i}:${f.k}">${esc(it[f.k])}</textarea>`:`<input ${f.type?`type="${f.type}"`:""} data-li="${el}:${i}:${f.k}" value="${esc(it[f.k])}">`}</div>`).join("")}</div></div>`).join("")||`<p class="hint">Nothing here yet.</p>`;
+}
+const LISTS={
+  noticeList:{arr:()=>data.notices,fields:[{k:"date",label:"Date",type:"date"},{k:"text",label:"Notice text",wide:true}],blank:()=>({date:new Date().toISOString().slice(0,10),text:""})},
+  courseList:{arr:()=>data.courses,fields:[{k:"icon",label:"Icon (emoji)"},{k:"name",label:"Course name"},{k:"teacher",label:"Teacher"},{k:"fee",label:"Monthly fee (Rs)",type:"number"},{k:"desc",label:"Description",wide:true,area:true}],blank:()=>({icon:"📘",name:"",teacher:"",fee:1000,desc:""})},
+  teacherList:{arr:()=>data.teachers,fields:[{k:"name",label:"Name"},{k:"subject",label:"Subject"}],photo:"photo",blank:()=>({name:"",subject:"",photo:""})}
+};
+function renderLists(){for(const [el,L] of Object.entries(LISTS))listEditor(el,L.arr(),L.fields,L.photo)}
+function renderInfo(){
+  document.querySelectorAll("[data-k]").forEach(i=>i.value=get(data,i.dataset.k)??"");
+  $("logoPrev").src=src(data.academy.logo||""); $("heroPrev").src=src(data.academy.heroImage||"");
+}
+function renderAll(){renderGallery();renderLists();renderInfo()}
+
+/* ---------- events ---------- */
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset.k){set(data,t.dataset.k,t.value);setDirty(true)}
+  else if(t.dataset.gi){data.gallery[+t.dataset.gi].caption=t.value;setDirty(true)}
+  else if(t.dataset.li){const [el,i,k]=t.dataset.li.split(":");LISTS[el].arr()[+i][k]=k==="fee"?Number(t.value):t.value;setDirty(true)}
+});
+let pendingUp=null;
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.p){document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id===b.dataset.p))}
+  if(b.dataset.gdel){if(!confirm("Delete this photo?"))return;const [g]=data.gallery.splice(+b.dataset.gdel,1);renderGallery();setDirty(true);removeFile(g.src)}
+  if(b.dataset.gup){const i=+b.dataset.gup;[data.gallery[i-1],data.gallery[i]]=[data.gallery[i],data.gallery[i-1]];renderGallery();setDirty(true)}
+  if(b.dataset.del){const [el,i]=b.dataset.del.split(":");if(!confirm("Delete this item?"))return;const [it]=LISTS[el].arr().splice(+i,1);renderLists();setDirty(true);if(it&&it.photo)removeFile(it.photo)}
+  if(b.dataset.upi||b.dataset.up){pendingUp=b;$("oneFile").value="";$("oneFile").click()}
+});
+$("addNotice").onclick=()=>{data.notices.unshift(LISTS.noticeList.blank());renderLists();setDirty(true)};
+$("addCourse").onclick=()=>{data.courses.push(LISTS.courseList.blank());renderLists();setDirty(true)};
+$("addTeacher").onclick=()=>{data.teachers.push(LISTS.teacherList.blank());renderLists();setDirty(true)};
+$("galFile").onchange=async e=>{
+  const files=[...e.target.files];if(!files.length)return;
+  for(let n=0;n<files.length;n++){toast(`Uploading photo ${n+1} of ${files.length}…`,60000);
+    try{const p=await upload(files[n],"gallery");data.gallery.unshift({src:p,caption:""});renderGallery();setDirty(true)}
+    catch(err){toast("❌ Upload failed: "+err.message,5000);return}}
+  toast("📷 Uploaded! Add captions, then tap Save & Publish.",4000);e.target.value="";
+};
+$("oneFile").onchange=async e=>{
+  const f=e.target.files[0];const b=pendingUp;if(!f||!b)return;
+  toast("Uploading…",60000);
+  try{
+    if(b.dataset.up){const k=b.dataset.up;const old=get(data,k);const p=await upload(f,k.split(".")[1].toLowerCase());set(data,k,p);renderInfo();removeFile(old)}
+    else{const [el,i]=b.dataset.upi.split(":");const it=LISTS[el].arr()[+i];const old=it.photo;it.photo=await upload(f,"teacher");renderLists();removeFile(old)}
+    setDirty(true);toast("📷 Uploaded! Tap Save & Publish.",3500);
+  }catch(err){toast("❌ Upload failed: "+err.message,5000)}
+};
+$("saveBtn").onclick=save;
+$("logoutBtn").onclick=()=>{if(dirty&&!confirm("You have unsaved changes. Log out anyway?"))return;store.del("ftaToken");location.reload()};
+
+async function start(){
+  $("loginBtn").disabled=true;
+  try{await load();store.set("ftaToken",token);$("loginCard").hidden=true;$("dash").hidden=false;$("savebar").hidden=false;renderAll();setDirty(false)}
+  catch(e){toast(e.status===401?"❌ Access key is not valid.":e.status===404?"❌ Repository or file not found — check Advanced settings / key permissions.":"❌ "+e.message,6000);store.del("ftaToken")}
+  finally{$("loginBtn").disabled=false}
+}
+["Owner","Repo","Branch","Dir"].forEach(k=>$("cfg"+k).value=cfg[k.toLowerCase()]);
+$("loginBtn").onclick=()=>{token=$("tokenIn").value.trim();
+  ["Owner","Repo","Branch","Dir"].forEach(k=>cfg[k.toLowerCase()]=$("cfg"+k).value.trim());store.set("ftaCfg",JSON.stringify(cfg));
+  if(!token)return toast("Please paste your access key.");start()};
+if(token)start();
+</script>
+</body>
+</html>
