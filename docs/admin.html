@@ -64,8 +64,16 @@ textarea{min-height:80px;resize:vertical}
     <h2>🔐 Admin Login</h2>
     <p class="hint">Paste your GitHub access key to manage the website. It is saved only on this phone/computer.</p>
     <label>GitHub access key (token)</label>
-    <input id="tokenIn" type="password" placeholder="github_pat_…">
-    <details style="margin-top:10px"><summary style="cursor:pointer;color:var(--navy);font-weight:600;font-size:.88rem">How do I get an access key?</summary>
+    <input id="tokenIn" type="password" placeholder="ghp_… or github_pat_…">
+    <a class="btn btn-navy" style="width:100%;justify-content:center;margin-top:12px" target="_blank" rel="noopener"
+       href="https://github.com/settings/tokens/new?scopes=public_repo&amp;description=Academy%20Website">🔑 Step 1: Create my access key</a>
+    <ol class="steps">
+      <li>Tap the button above (log in to GitHub if asked).</li>
+      <li>In <b>Expiration</b>, choose <b>No expiration</b>.</li>
+      <li>Scroll to the bottom and tap the green <b>Generate token</b> button.</li>
+      <li>Copy the code that starts with <b>ghp_</b>, come back here, paste it above and tap <b>Login</b>.</li>
+    </ol>
+    <details style="margin-top:10px"><summary style="cursor:pointer;color:var(--navy);font-weight:600;font-size:.88rem">Other way (fine-grained key)</summary>
       <ol class="steps">
         <li>Open <b>github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</b>.</li>
         <li>Click <b>Generate new token</b>. Name it "Academy website".</li>
